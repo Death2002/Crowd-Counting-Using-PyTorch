@@ -1,12 +1,12 @@
 # This script parses command line arguments and prepares the data
-# used for training and testing the CrowdCount model.
+# used for training and testing the CDENet model.
 import sys
 import os
 
 import warnings
 
-# Import the CrowdCount model from the model.py file
-from model import CrowdCount
+# Import the CDENet model from the model.py file
+from model import CDENet
 
 # Import the save_checkpoint function from utils.py
 from utils import save_checkpoint
@@ -39,7 +39,7 @@ import dataset
 import time
 
 # Create an ArgumentParser object to handle command line arguments
-parser = argparse.ArgumentParser(description='PyTorch CrowdCount')
+parser = argparse.ArgumentParser(description='PyTorch CDENet')
 
 # Add an argument for the path to the train json file
 parser.add_argument('train_json', metavar='TRAIN', 
@@ -85,7 +85,7 @@ def main():
     args.momentum      = 0.95
     args.decay         = 5*1e-4
     args.start_epoch   = 0
-    args.epochs = 400
+    args.epochs         = 400
     args.steps         = [-1,1,100,150]
     args.scales        = [1,1,1,1]
     args.workers = 4
@@ -115,7 +115,7 @@ def main():
     Create the model, criterion and optimizer. The model is moved to
     the GPU. 
     """
-    model = CrowdCount()
+    model = CDENet()
     
     model = model.cuda()
     
