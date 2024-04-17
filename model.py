@@ -1,4 +1,4 @@
-"""This file defines the CrowdCount model which is a pytorch model.
+"""This file defines the CDENet model which is a pytorch model.
 
 The model is based on the Faster R-CNN architecture but has a simpler
 output layer since we are only counting the number of people in an image.
@@ -8,20 +8,20 @@ import torch
 from torchvision import models
 from utils import save_net,load_net
 
-class CrowdCount(nn.Module):
-    """The CrowdCount model.
+class CDENet(nn.Module):
+    """The CDENet model.
     
     This model is based on the Faster R-CNN architecture but has a simpler
     output layer since we are only counting the number of people in an image.
     """
     def __init__(self, load_weights=False):
-        """Initialize the CrowdCount model.
+        """Initialize the CDENet model.
         
         Arguments:
             load_weights (bool, optional): If True, the model will be initialized
                 with the weights of a pre-trained VGG16 model. Defaults to False.
         """
-        super(CrowdCount, self).__init__()
+        super(CDENet, self).__init__()
         # The number of images the model has seen during training.
         self.seen = 0
         # The feature extractor of the model (i.e. the CNN part of the VGG16
@@ -45,11 +45,11 @@ class CrowdCount(nn.Module):
             self._initialize_weights()
             # Loop over all the weights of the feature extractor and assign the
             # corresponding weights from the pre-trained model to the feature
-            # extractor of the CrowdCount model.
+            # extractor of the CDENet model.
             for i in range(len(self.frontend.state_dict().items())):
-                # The name of the parameter in the CrowdCount model.
+                # The name of the parameter in the CDENet model.
                 k_crowd = list(self.frontend.state_dict().items())[i][0]
-                # The value of the parameter in the CrowdCount model.
+                # The value of the parameter in the CDENet model.
                 v_crowd = list(self.frontend.state_dict().items())[i][1]
                 # The name of the parameter in the pre-trained model.
                 k_vgg = list(mod.state_dict().items())[i][0]
@@ -57,7 +57,7 @@ class CrowdCount(nn.Module):
                 v_vgg = list(mod.state_dict().items())[i][1]
                 # If the names of the parameters are the same, assign the value
                 # of the pre-trained parameter to the corresponding parameter in
-                # the CrowdCount model.
+                # the CDENet model.
                 if k_crowd == k_vgg:
                     v_crowd.data[:] = v_vgg.data[:]
     def forward(self,x):
